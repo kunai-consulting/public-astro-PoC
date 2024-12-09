@@ -31,7 +31,7 @@
 		"@builder.io/qwik": "^1.11.0",
 		"@kunai-consulting/c1-design-system": "^0.0.26",
 		"@qwik-ui/headless": "^0.6.3",
-		"@qwikdev/astro": "https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1",
+		"@qwikdev/astro": "https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c",
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^22.10.1",

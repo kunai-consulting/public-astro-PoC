@@ -64,8 +64,8 @@ importers:
         specifier: ^0.6.3
         version: 0.6.3(@builder.io/qwik@1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1)))
       '@qwikdev/astro':
-        specifier: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1
-        version: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1(@builder.io/qwik@1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1)))(astro@5.0.2(@types/node@22.10.1)(jiti@1.21.6)(rollup@4.28.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))
+        specifier: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c
+        version: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c(@builder.io/qwik@1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1)))(astro@5.0.2(@types/node@22.10.1)(jiti@1.21.6)(rollup@4.28.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.15(tailwindcss@3.4.15)
@@ -895,8 +895,8 @@ packages:
     peerDependencies:
       '@builder.io/qwik': '>=1.3.1'
 
-  '@qwikdev/astro@https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1':
-    resolution: {tarball: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1}
+  '@qwikdev/astro@https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c':
+    resolution: {tarball: https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c}
     version: 0.6.3
     peerDependencies:
       '@builder.io/qwik': ^1.11
@@ -3478,7 +3478,7 @@ snapshots:
       body-scroll-lock-upgrade: 1.1.0
       focus-trap: 7.5.4
 
-  '@qwikdev/astro@https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@359f2e1(@builder.io/qwik@1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1)))(astro@5.0.2(@types/node@22.10.1)(jiti@1.21.6)(rollup@4.28.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))':
+  '@qwikdev/astro@https://pkg.pr.new/QwikDev/astro/@qwikdev/astro@c50532c(@builder.io/qwik@1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1)))(astro@5.0.2(@types/node@22.10.1)(jiti@1.21.6)(rollup@4.28.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))':
     dependencies:
       '@builder.io/qwik': 1.11.0(vite@6.0.2(@types/node@22.10.1)(jiti@1.21.6)(tsx@4.19.2)(yaml@2.6.1))
       astro-integration-kit: 0.16.1(astro@5.0.2(@types/node@22.10.1)(jiti@1.21.6)(rollup@4.28.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))
