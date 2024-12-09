@@ -1,0 +1,191 @@
+---
+import { getCollection, render } from "astro:content";
+import { Sidebar } from "@/components/qwik/sidebar/sidebar";
+import { TOC } from "@/components/qwik/toc/toc";
+import Layout from "@/layouts/docs-layout.astro";
+import { getPrevNextPages } from "@/utils/page-recommend";
+import { SuggestionCard } from "@/components/qwik/suggestion-card/suggestion-card";
+import currentMenu from "../../../menu-current/menu.json";
+import versionsData from "../../../docs-versions/versions.json";
+import Breadcrumb from "@/components/qwik/breadcrumb/breadcrumb";
+
+export interface MenuSection {
+	heading: {
+		depth: number;
+		text: string;
+		slug: string;
+	};
+	items: Array<{ title: string; link: string }>;
+}
+
+interface MenuDataSection {
+	section: string;
+	link: string;
+	items: Array<{ title: string; link: string }>;
+}
+
+export async function getStaticPaths() {
+	const latestVersion = versionsData[0];
+
+	const docs = await getCollection(
+		"docs",
+		(entry) => !entry.id.includes("menu"),
+	);
+	const docsVersions = await getCollection("docs-versions");
+	const versionedMenus = await getCollection("menu-versions", (entry) =>
+		entry.id.endsWith("/menu"),
+	);
+
+	const generateRoutes = (menu: MenuDataSection[], version: string | null) => {
+		return menu.flatMap((section) => [
+			// Add route for the section itself, only if link exists AND has corresponding content
+			...(section.link && docs.find((d) => d.id === section.link)
+				? [
+						{
+							params: {
+								slug: version ? `${version}/${section.link}` : section.link,
+							},
+							props: {
+								entry: docs.find((d) => d.id === section.link),
+								menuData: menu,
+								version: version,
+								currentSlug: section.link,
+							},
+						},
+					]
+				: []),
+			// Existing item routes (only include if content exists)
+			...section.items
+				.filter((item) => docs.find((d) => d.id === item.link))
+				.map((item) => ({
+					params: {
+						slug: version ? `${version}/${item.link}` : item.link,
+					},
+					props: {
+						entry: docs.find((d) => d.id === item.link),
+						menuData: menu,
+						version: version,
+						currentSlug: item.link,
+					},
+				})),
+		]);
+	};
+
+	const routes = [
+		// Handle current docs (unversioned)
+		...generateRoutes(currentMenu, "current"),
+
+		// Handle versioned docs
+		...docsVersions
+			.map((entry) => {
+				if (!entry.filePath) {
+					return;
+				}
+				const parts = entry.filePath.split("/");
+				const version = parts[parts.indexOf("docs-versions") + 1].slice(1); // remove 'v' prefix
+				const rest = parts.slice(parts.indexOf("docs-versions") + 2);
+				const slug = rest.join("/").replace(/\.mdx?$/, "");
+
+				// For latest version, create route without version prefix
+				if (version === latestVersion) {
+					return {
+						params: { slug },
+						props: {
+							entry,
+							menuData: versionedMenus.find((m) =>
+								m.filePath?.includes(`/v${version}/`),
+							)?.data,
+							version: null,
+							currentSlug: slug,
+						},
+					};
+				}
+
+				return {
+					params: { slug: `${version}/${slug}` },
+					props: {
+						entry,
+						menuData: versionedMenus.find((m) =>
+							m.filePath?.includes(`/v${version}/`),
+						)?.data,
+						version,
+						currentSlug: slug,
+					},
+				};
+			})
+			.filter(Boolean),
+	];
+
+	return routes;
+}
+
+const { entry, menuData, version, currentSlug } = Astro.props;
+if (!menuData) {
+	throw new Error(`Menu data not found for version: ${version}`);
+}
+if (!entry) {
+	throw new Error(`Content not found for slug: ${currentSlug}`);
+}
+const { Content, headings } = await render(entry);
+
+const processMenuData = (data: MenuDataSection[]) =>
+	data.map((section) => ({
+		heading: {
+			depth: 2,
+			text: section.section,
+			slug: section.section.toLowerCase().replace(/\s+/g, "-"),
+		},
+		items: section.items.map((item) => ({
+			...item,
+			link: item.link,
+		})),
+	}));
+
+const menuSections = processMenuData(menuData);
+
+const { prev, next } = getPrevNextPages(menuSections, currentSlug);
+---
+
+<Layout>
+	<div class="grid grid-cols-5">
+		<Sidebar
+			menuItems={menuSections}
+			version={version}
+			currentSlug={currentSlug}
+		/>
+		<div class="mb-12 md:col-span-3 col-span-5">
+			<div class="mx-auto p-6 prose dark:prose-invert max-w-screen-md" data-pagefind-body>
+				<Breadcrumb
+					menuSections={menuSections}
+					currentSlug={currentSlug}
+					version={version}
+				/>
+				<div class="px-2 dark:bg-gray-800 rounded w-fit bg-gray-200 mb-4 text-[#111827] dark:text-white">
+					Version: {version || versionsData[0]}
+				</div>
+				<Content />
+			</div>
+			<div class="mt-8 grid grid-cols-2 border-t dark:border-gray-700 pt-4 gap-4 p-4">
+				<div>
+					{prev && (
+						<SuggestionCard
+							type="prev"
+							link={prev.link}
+							title={prev.title}
+							section={prev.section}
+						/>
+					)}
+				</div>
+				{next && (
+					<SuggestionCard
+						type="next"
+						link={next.link}
+						title={next.title}
+						section={next.section}
+					/>
+				)}
+			</div>
+		</div>
+		<TOC headings={headings} />
+	</div>
+</Layout>

@@ -1,0 +1,49 @@
+# Code Examples
+
+Both Astro and Docusaurus offer robust support for code examples in documentation. Let's explore how they handle syntax highlighting and code blocks.
+
+## Astro (Current Implementation)
+Astro uses Shiki for syntax highlighting by default, providing VS Code-like highlighting accuracy. Here's a basic example:
+
+```js
+function calculateInterest(principal, rate, years) {
+  return principal * (1 + (rate / 100) * years);
+}
+
+const earnings = calculateInterest(1000, 5, 2);  // $1000 at 5% for 2 years
+```
+
+This is using Astro's default configuration, which provides:
+- Clean, readable syntax highlighting
+- Language-specific coloring
+- Proper code indentation
+
+## Docusaurus Features
+Docusaurus includes additional features out of the box:
+- Line highlighting
+- Line numbers
+- Copy code button
+- File names in code blocks
+- Live code editor support
+
+Example Docusaurus syntax:
+```md
+​```jsx title="example.jsx" {2-4}
+function MyComponent() {
+  // These lines would be highlighted
+  const value = "Hello";
+  return <div>{value}</div>;
+}
+​```
+```
+
+## Which to Choose?
+- Choose **Docusaurus** if you need code-related features immediately without setup
+- Choose **Astro** if you prefer:
+  - More accurate syntax highlighting
+  - Custom implementation of features
+  - Greater flexibility in styling and behavior
+
+We'll be exploring how to add Docusaurus-like features to Astro in upcoming sections.
+
+> **Fun fact**: It's possible to achieve basic syntax highlighting using [just a font!](https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/) Using OpenType features and color tables, some fonts can detect and colorize code patterns without any JavaScript.

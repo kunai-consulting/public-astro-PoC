@@ -1,0 +1,20 @@
+import { Image } from "astro:assets";
+import versioningImage from "@/assets/versioning/docusaurus-docs.png";
+
+# Versioning
+
+Docusaurus has a [powerful versioning system](https://docusaurus.io/docs/versioning) that allows you to maintain documentation for multiple versions of your project simultaneously.
+
+<Image src={versioningImage} alt="Docusaurus docs folder structure" quality={80} />
+
+## How Docusaurus Versioning Works
+
+When you want to create a new version of your documentation:
+
+1. Docusaurus creates a snapshot of your current docs
+2. The snapshot is stored in a versioned directory (e.g., `versioned_docs/version-1.0.0`)
+3. Users can switch between different versions using the version dropdown
+
+## Creating a New Version
+
+To create a new version:

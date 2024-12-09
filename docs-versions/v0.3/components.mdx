@@ -1,0 +1,41 @@
+# Component Integration
+
+Let's explore how Astro and Docusaurus handle components in documentation sites.
+
+## Astro's Multi-Framework Approach
+Astro allows you to use components from multiple frameworks simultaneously:
+
+```tsx
+- - -
+import { QwikCounter } from '@/components/qwik/counter';
+import { ReactCounter } from '@/components/react/counter';
+- - -
+
+<div>
+  <QwikCounter />  <!-- Qwik component -->
+  <ReactCounter /> <!-- React component -->
+</div>
+```
+
+This flexibility enables you to:
+- Use the best framework for each use case
+- Leverage existing components from different ecosystems
+- Mix server and client components seamlessly
+
+## Docusaurus React Components
+Docusaurus provides a focused React-based approach:
+
+```jsx
+import { Counter } from '@/components/Counter';
+
+export default function Page() {
+  return <Counter />;
+}
+```
+
+Benefits include:
+- Consistent React development experience
+- Deep integration with React ecosystem
+- Standardized component patterns
+
+> **Fun fact**: The sidebar navigation and version selector on this site are server-side interactive using Qwik! In traditional client-side frameworks like React, these components would require client-side JavaScript to handle their initial state. With Qwik's resumability, they're interactive from the server without hydration. 

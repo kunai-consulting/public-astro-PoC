@@ -1,0 +1,35 @@
+---
+const { title } = Astro.props;
+const slug = (Astro.url.pathname.split("/").pop() || "Home")
+	.split(".")[0] // Remove file extension if present
+	.split("-")
+	.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+	.join(" ");
+import Header from "./header.astro";
+import "@/styles/global.css";
+---
+
+<script is:inline>
+  function setDarkMode(document) {
+    let theme = localStorage.getItem("darkMode") === "dark" ? "dark" : "light";
+    document.documentElement.className = theme;
+  }
+
+  setDarkMode(document);
+</script>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title || `POC | ${slug}`}</title>
+  </head>
+  <body>
+    <main>
+      <Header />
+      <slot />
+    </main>
+  </body>
+</html>

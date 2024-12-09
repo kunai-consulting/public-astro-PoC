@@ -1,0 +1,27 @@
+---
+import QwikVersionSelect from "@/components/qwik/version-select/version-select";
+import { SearchModal } from "@/components/qwik/search-modal/search-modal";
+import { ThemeToggle } from "@/components/qwik/theme/theme-toggle";
+---
+
+<div class="flex p-4 border-b dark:border-gray-700 justify-between sticky top-0 bg-white dark:bg-gray-950 z-50">
+    <div><a href="/" class="dark:text-white">LOGO</a></div>
+    <div class="flex gap-4 items-center">
+        <ThemeToggle />
+        <SearchModal />
+        <QwikVersionSelect url={Astro.url.pathname} />
+    </div>
+</div>
+
+<script is:inline>
+  document.querySelector('[data-id="search"]')?.addEventListener('input', async (e) => {
+    if (e.target.dataset.loaded !== 'true') {
+      e.target.dataset.loaded = 'true'
+      window.pagefind = await import("/pagefind/pagefind.js");
+    }
+
+    const search = await window.pagefind.search(e.target.value)
+
+    window.dispatchEvent(new CustomEvent('searchResults', { detail: search.results }))
+  })
+</script>

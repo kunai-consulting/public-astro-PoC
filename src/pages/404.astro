@@ -1,0 +1,16 @@
+---
+/**
+ *  If we switch versions and a page for that version does not exist,
+ *  redirect to the getting-started page for that version.
+ */
+const segments = Astro.url.pathname.split("/").filter(Boolean);
+const docsIndex = segments.indexOf("docs");
+const possibleVersion = segments[docsIndex + 1];
+
+// check if next segment after "docs" starts with "v" and has numbers
+if (possibleVersion?.startsWith("v") && /v\d+\.\d+/.test(possibleVersion)) {
+	return Astro.redirect(`/docs/${possibleVersion}/getting-started`);
+}
+
+return Astro.redirect("/docs/getting-started");
+---

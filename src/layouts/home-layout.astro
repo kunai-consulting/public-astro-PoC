@@ -1,0 +1,31 @@
+---
+const { title } = Astro.props;
+import Header from "./header.astro";
+import "@/styles/global.css";
+---
+
+<script is:inline>
+  function setDarkMode(document) {
+    let theme = localStorage.getItem("darkMode") === "dark" ? "dark" : "light";
+    document.documentElement.className = theme;
+  }
+  setDarkMode(document);
+</script>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>POC | Home</title>
+  </head>
+  <body>
+    <main>
+      <Header />
+      <div class="max-w-screen-md p-6 mx-auto prose dark:prose-invert prose-a:text-core-blue-40 prose-a:text-lg">
+        <slot />
+      </div>
+    </main>
+  </body>
+</html>

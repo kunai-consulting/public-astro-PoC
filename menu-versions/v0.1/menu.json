@@ -1,0 +1,34 @@
+[
+	{
+		"section": "Introduction",
+		"link": "introduction",
+		"items": [
+			{
+				"title": "Getting Started",
+				"link": "getting-started"
+			},
+			{
+				"title": "Versioning",
+				"link": "versioning"
+			},
+			{
+				"title": "Test",
+				"link": "test"
+			}
+		]
+	},
+	{
+		"section": "Guides",
+		"link": "guides",
+		"items": [
+			{
+				"title": "New Features",
+				"link": "new-features"
+			},
+			{
+				"title": "Release Notes",
+				"link": "release-notes"
+			}
+		]
+	}
+]
