@@ -11,12 +11,16 @@ export default component$<VersionSelectProps>(({ url }) => {
 	const parts = url.split("/");
 	const urlVersion = parts[2];
 
-	const initialVersion =
-		urlVersion === "current" || versionsData.includes(urlVersion)
-			? urlVersion
-			: versionsData[0];
+	const version = useSignal("");
 
-	const version = useSignal(initialVersion);
+	useVisibleTask$(() => {
+		const storedVersion = localStorage.getItem("docs-version");
+		version.value = storedVersion || (
+			urlVersion === "current" || versionsData.includes(urlVersion)
+				? urlVersion
+				: versionsData[0]
+		);
+	});
 
 	const handleVersionChange = $((newVersion: string) => {
 		version.value = newVersion;
