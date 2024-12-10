@@ -1,0 +1,122 @@
+---
+// import { Tabs } from "astro-tabs";
+// ...
+
+/**
+ *
+ * I'm thinkin:
+ *
+ * Slot 1 -> the component to be showcased
+ * Slot 2 -> the code example
+ *
+ * We use an Astro <slot /> in this case for slot 2
+ *
+ * THEN in the actual MDX something like this:
+ *
+ * <Showcase>
+ *  <Component slot="preview" /> <--- whatever component we importing in the mdx
+ *  <Code>
+ *    ```tsx
+ *     // some code here
+ *    ```
+ *  </Code>
+ * </Showcase>
+ *
+ * As for styling, this no JS tabs is like:
+ *
+ *  <input /> <--- radio button that has focus
+ *  <label>
+ *     // slot 1 tabs
+ *    our span
+ *  </label>
+ *
+ * I was trying to use the :has() CSS selector to style the tabs when the radio button has focus, but didn't get super far with it.
+ *
+ * If this doesn't work out, try searching up another Astro Tabs OR Vanilla JS tabs. This is because our Qwik showcase component can't have React components inside of it.
+ *
+ */
+---
+
+
+<div class="tabs-container">
+  <div class="tabs">
+    <button class="tab active" data-tab="preview">Preview</button>
+    <button class="tab" data-tab="code">Code</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="preview">
+    <div class="w-full flex justify-center">
+      <slot name="preview" />
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="code">
+    <slot name="code" />
+  </div>
+</div>
+
+<script>
+  function initTabs() {
+    const containers = document.querySelectorAll('.tabs-container');
+    
+    containers.forEach(container => {
+      const tabs = container.querySelectorAll('.tab');
+      const contents = container.querySelectorAll('.tab-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+
+          tab.classList.add('active');
+          const content = container.querySelector(`[data-panel="${(tab as HTMLElement).dataset.tab}"]`);
+          content?.classList.add('active');
+        });
+      });
+    });
+  }
+
+  initTabs();
+</script>
+
+<style>
+  .tabs-container {
+    @apply border rounded-lg overflow-hidden;
+  }
+
+  .tabs {
+    @apply flex border-b;
+  }
+
+  .tab {
+    @apply px-4 py-2 hover:bg-blue-100 cursor-pointer;
+  }
+
+  .tab.active {
+    @apply text-blue-500 border-b-2 border-blue-500;
+  }
+
+  .tab-panel {
+    @apply hidden w-full;
+  }
+
+  .tab-panel.active {
+    @apply block w-full;
+  }
+
+  .tab-panel[data-panel="code"] {
+    @apply max-h-[500px] overflow-y-auto;
+  }
+
+  .tab-panel[data-panel="code"] :global(slot) {
+    @apply block bg-[#24292e];
+  }
+
+  .tab-panel[data-panel="preview"].active {
+    @apply p-4 flex min-h-[350px] justify-center items-center;
+  }
+
+  .tab-panel[data-panel="preview"] :global(slot) {
+    @apply flex justify-center items-center w-full;
+  }
+</style>

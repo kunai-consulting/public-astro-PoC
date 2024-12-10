@@ -1,3 +1,9 @@
+import { QwikCounter } from '@/components/qwik/counter';
+import { ReactCounter } from '@/components/react/counter';
+import Showcase from '@/layouts/showcase.astro';
+import { SelectScrollable } from "@/components/react/select";
+import { Select } from "@kunai-consulting/c1-design-system";
+
 # Component Integration
 
 Let's explore how Astro and Docusaurus handle components in documentation sites.
@@ -21,6 +27,140 @@ This flexibility enables you to:
 - Use the best framework for each use case
 - Leverage existing components from different ecosystems
 - Mix server and client components seamlessly
+
+## React Components
+Astro seamlessly supports React components, similar to Docusaurus:
+
+
+<Showcase>
+  <div slot="preview">
+    <SelectScrollable client:load />
+  </div>
+  <div slot="code">
+    ```tsx
+    import * as React from "react"
+
+    import {
+      Select,
+      SelectContent,
+      SelectGroup,
+      SelectItem,
+      SelectLabel,
+      SelectTrigger,
+      SelectValue,
+    } from "@/components/ui/select"
+
+    export function SelectScrollable() {
+      const timezones = {
+        northAmerica: [
+          { value: "est", label: "Eastern Standard Time (EST)" },
+          { value: "cst", label: "Central Standard Time (CST)" },
+          { value: "mst", label: "Mountain Standard Time (MST)" },
+          { value: "pst", label: "Pacific Standard Time (PST)" },
+          { value: "akst", label: "Alaska Standard Time (AKST)" },
+          { value: "hst", label: "Hawaii Standard Time (HST)" }
+        ],
+        europeAfrica: [
+          { value: "gmt", label: "Greenwich Mean Time (GMT)" },
+          { value: "cet", label: "Central European Time (CET)" },
+          { value: "eet", label: "Eastern European Time (EET)" },
+          { value: "west", label: "Western European Summer Time (WEST)" },
+          { value: "cat", label: "Central Africa Time (CAT)" },
+          { value: "eat", label: "East Africa Time (EAT)" }
+        ],
+        asia: [
+          { value: "msk", label: "Moscow Time (MSK)" },
+          { value: "ist", label: "India Standard Time (IST)" },
+          { value: "cst_china", label: "China Standard Time (CST)" },
+          { value: "jst", label: "Japan Standard Time (JST)" },
+          { value: "kst", label: "Korea Standard Time (KST)" },
+          { value: "ist_indonesia", label: "Indonesia Central Standard Time (WITA)" }
+        ],
+        australiaPacific: [
+          { value: "awst", label: "Australian Western Standard Time (AWST)" },
+          { value: "acst", label: "Australian Central Standard Time (ACST)" },
+          { value: "aest", label: "Australian Eastern Standard Time (AEST)" },
+          { value: "nzst", label: "New Zealand Standard Time (NZST)" },
+          { value: "fjt", label: "Fiji Time (FJT)" }
+        ],
+        southAmerica: [
+          { value: "art", label: "Argentina Time (ART)" },
+          { value: "bot", label: "Bolivia Time (BOT)" },
+          { value: "brt", label: "Brasilia Time (BRT)" },
+          { value: "clt", label: "Chile Standard Time (CLT)" }
+        ]
+      };
+
+      return (
+        <Select>
+          <SelectTrigger className="w-[280px]">
+            <SelectValue placeholder="Select a timezone" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(timezones).map(([region, zones]) => (
+              <SelectGroup key={region}>
+                <SelectLabel>
+                  {region
+                    .replace(/([A-Z])/g, ' $1')
+                    .split(' ')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ')
+                    .trim()}
+                </SelectLabel>
+                {zones.map(({ value, label }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+
+    ```
+  </div>
+</Showcase>
+
+Benefits:
+- Familiar React development experience
+- Access to the vast React ecosystem
+- Fine-grained control over hydration with `client:` directives
+
+## Qwik Components
+Astro also supports Qwik components, offering unique performance benefits:
+
+```tsx
+import { QwikCounter } from '@/components/qwik/counter';
+
+<QwikCounter /> <!-- No client-side hydration needed -->
+```
+
+Key advantages:
+- Zero initial JavaScript bundle
+- Instant interactivity without hydration
+- Progressive JavaScript loading on interaction
+
+> **Performance Insight**: While React components require client-side hydration to become interactive, Qwik components are "resumable" from their server-rendered state. This makes Qwik ideal for documentation UI elements like navigation menus, search bars, and interactive examples that need to be immediately interactive without the overhead of full hydration.
+
+<Showcase>
+  <div slot="preview">
+    <div class="flex flex-col gap-4">
+      <div>Qwik Counter: <QwikCounter /></div>
+    </div>
+  </div>
+  <div slot="code">
+    ```tsx
+    import { component$ } from "@builder.io/qwik";
+    import { QwikCounter } from "../components/qwik/counter";
+
+    export default component$(() => {
+      return <QwikCounter />;
+    });
+    ```
+  </div>
+</Showcase>
 
 ## Docusaurus React Components
 Docusaurus provides a focused React-based approach:
