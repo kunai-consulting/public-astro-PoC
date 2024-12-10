@@ -1,7 +1,7 @@
 import { component$, useVisibleTask$ } from '@builder.io/qwik';
 import { useSignal } from '@builder.io/qwik';
 
-export const DocVersionLink = component$((props: {
+export const VersionLink = component$((props: {
     text: string; path: string 
 }) => {
   const versionedPath = useSignal(props.path);

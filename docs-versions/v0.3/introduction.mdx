@@ -7,6 +7,7 @@ import { QwikCounter } from '@/components/qwik/counter';
 import { ReactCounter } from '@/components/react/counter';
 import VersionSelect from '@/components/qwik/version-select/version-select';
 import Card from '@/components/qwik/card/card';
+import { VersionLink } from "@/components/qwik/version-select/version-link";
 
 # Docusaurus vs Astro
 
@@ -19,6 +20,4 @@ This proof-of-concept explores two leading documentation platforms: Docusaurus a
 
 This documentation site is built with Astro.
 
-[Get Started](/docs/getting-started)
-
-
+<VersionLink path="/docs/getting-started" text="Get Started" />
