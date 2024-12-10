@@ -29,8 +29,7 @@ export const SearchModal = component$(() => {
 			const currentVersion = localStorage.getItem("docs-version") || "";
 
 			for (const result of event.detail) {
-				const data = await result.data();
-				const url = data.url;
+				const url = result.url;
 				const isVersionedPath = /\/docs\/\d+\.\d+\//.test(url);
 
 				const shouldIncludeResult =
@@ -44,7 +43,7 @@ export const SearchModal = component$(() => {
 					url.includes(`/docs/${currentVersion}/`);
 
 				if (shouldIncludeResult) {
-					newResults.push(data);
+					newResults.push(result);
 				}
 			}
 			results.value = newResults;
