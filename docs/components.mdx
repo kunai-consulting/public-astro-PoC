@@ -3,6 +3,9 @@ import { ReactCounter } from '@/components/react/counter';
 import Showcase from '@/layouts/showcase.astro';
 import { SelectScrollable } from "@/components/react/select";
 import { Select } from "@kunai-consulting/c1-design-system";
+import docusaurusPerf from '@/assets/components/docusaurus-perf.png';
+import astroQwikPerf from '@/assets/components/astro-qwik-perf.png';
+import { Image } from 'astro:assets';
 
 # Component Integration
 
@@ -189,3 +192,35 @@ docusaurus swizzle @docusaurus/theme-classic Footer
 ```
 
 ## Performance mention
+
+For both this POC and the Docusaurus main site, we ran through Google PageSpeed Insights, which measures key performance metrics in both simulated and real-world conditions across strained networks.
+
+Both pages contained similar levels of content and interactivity, the results are as follows:
+
+### Docusaurus
+
+The Docusaurus main site averaged around 50-60 score, with its main issues being around work on the main thread, such as third party scripts, along with a large amount of render delay due to prefetching.
+
+This causes low TBT and LCP scores. Based on the real user data from the CrUX report, the [INP score](https://web.dev/articles/inp) was 283ms, which is particularly concerning for documentation sites.
+
+Why INP Matters for Documentation:
+- Users frequently interact with navigation, search, and code samples
+- Documentation requires quick jumps between sections and pages
+- Poor interaction responsiveness can significantly impact developer productivity
+- Common documentation features like syntax highlighting and code copying need to feel instant
+
+The high INP score indicates that users may experience noticeable delays when interacting with the site, which can be frustrating when trying to quickly find or reference documentation.
+
+<Image src={docusaurusPerf} alt="Docusaurus Performance" quality={80} />
+
+### Astro
+
+Now for this POC we're unable to collect real user data, as that takes a 28 day period to collect the crux report, although we can compare the pagespeed insights scores.
+
+In this case, the Astro POC averaged around a 99-100 score. Most of the "outer shell" of the docs consists of Qwik components, which are HTML until your users opt-in to a specific interaction.
+
+INP levels should remain low, as Qwik's buffering system is able to preload in a worker pool, as well as compile and parse the JavaScript off the main thread (something that can't be done in a service worker).
+
+Where the Astro POC could improve is the number of DOM nodes and chained requests. (The DOM nodes are heavily reduced in the upcoming Qwik v2 release)
+
+<Image src={astroQwikPerf} alt="Astro Qwik Performance" quality={80} />
