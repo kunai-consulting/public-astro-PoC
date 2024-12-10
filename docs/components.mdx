@@ -6,9 +6,10 @@ import { Select } from "@kunai-consulting/c1-design-system";
 
 # Component Integration
 
-Let's explore how Astro and Docusaurus handle components in documentation sites.
+Components are a key part of documentation sites, this page demonstrates how Astro and Docusaurus handle components.
 
 ## Astro's Multi-Framework Approach
+
 Astro allows you to use components from multiple frameworks simultaneously:
 
 ```tsx
@@ -24,8 +25,8 @@ import { ReactCounter } from '@/components/react/counter';
 ```
 
 This flexibility enables you to:
-- Use the best framework for each use case
-- Leverage existing components from different ecosystems
+- Use the best package for each use case
+- Leverage existing components from different ecosystems (including design systems)
 - Mix server and client components seamlessly
 
 ## React Components
@@ -128,6 +129,8 @@ Benefits:
 - Access to the vast React ecosystem
 - Fine-grained control over hydration with `client:` directives
 
+The example above is a React Select component from [Shadcn/UI](https://ui.shadcn.com/). 
+
 ## Qwik Components
 Astro also supports Qwik components, offering unique performance benefits:
 
@@ -138,11 +141,16 @@ import { QwikCounter } from '@/components/qwik/counter';
 ```
 
 Key advantages:
-- Zero initial JavaScript bundle
-- Instant interactivity without hydration
-- Progressive JavaScript loading on interaction
+- Sends only HTML - no JavaScript until interaction
+- No need for directives, since there is no hydration
+- Perfect for highly interactive documentation
 
-> **Performance Insight**: While React components require client-side hydration to become interactive, Qwik components are "resumable" from their server-rendered state. This makes Qwik ideal for documentation UI elements like navigation menus, search bars, and interactive examples that need to be immediately interactive without the overhead of full hydration.
+Like video streaming, Qwik uses a buffering system that runs in a separate thread to buffer JavaScript just before it's needed. This means your documentation stays lightweight and fast, while still providing rich interactivity when users need it.
+
+Qwik also allows for server first ui state management, which is a great fit for documentation sites. An example being the sidebar navigation and version selector on this site.
+
+In most documentation sites, these components would have to be persisted on the client with a script tag.
+
 
 <Showcase>
   <div slot="preview">
@@ -173,9 +181,11 @@ export default function Page() {
 }
 ```
 
-Benefits include:
-- Consistent React development experience
-- Deep integration with React ecosystem
-- Standardized component patterns
+Components can be customized through "swizzling" - Docusaurus's way of ejecting and modifying built-in components:
 
-> **Fun fact**: The sidebar navigation and version selector on this site are server-side interactive using Qwik! In traditional client-side frameworks like React, these components would require client-side JavaScript to handle their initial state. With Qwik's resumability, they're interactive from the server without hydration. 
+```bash
+# Eject a component for customization
+docusaurus swizzle @docusaurus/theme-classic Footer
+```
+
+## Performance mention

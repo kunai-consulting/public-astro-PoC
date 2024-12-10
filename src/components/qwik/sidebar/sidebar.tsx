@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, type PropsOf } from "@builder.io/qwik";
 import { Accordion } from "@qwik-ui/headless";
 
 export interface MenuItem {
@@ -17,11 +17,11 @@ interface MenuSection {
 	items: MenuItem[];
 }
 
-interface SidebarProps {
+type SidebarProps = {
 	menuItems: MenuSection[];
 	version?: string | null;
 	currentSlug?: string;
-}
+} & PropsOf<"aside">;
 
 export const Sidebar = component$((props: SidebarProps) => {
 	const { menuItems, version, currentSlug } = props;
@@ -32,8 +32,11 @@ export const Sidebar = component$((props: SidebarProps) => {
 	);
 
 	return (
-		<aside class="flex-col hidden md:flex dark:bg-gray-950 dark:text-white col-span-1 h-auto">
-			<div class="w-fit p-6 border-r dark:border-gray-700 sticky top-24 h-[calc(100vh-10rem)]">
+		<aside
+			class="flex-col hidden lg:flex dark:bg-gray-950 dark:text-white col-span-1 h-auto group data-[mobile]:flex data-[mobile]:items-center data-[mobile]:justify-center data-[mobile]:h-full data-[mobile]:mt-8"
+			{...props}
+		>
+			<div class="w-fit p-6 border-r dark:border-gray-700 group-data-[mobile]:border-none sticky top-24 h-[calc(100vh-10rem)] group-data">
 				<Accordion.Root
 					class="flex flex-col gap-4"
 					value={currentSection?.heading.slug}

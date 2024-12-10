@@ -1,7 +1,21 @@
 ---
-const { title } = Astro.props;
+export type MenuItems = {
+	title?: string;
+	menuItems?: Array<{
+		heading: {
+			depth: number;
+			text: string;
+			slug: string;
+		};
+		items: Array<{ title: string; link: string }>;
+	}>;
+	version?: string | null;
+	currentSlug?: string;
+};
+
+const { title, menuItems, version, currentSlug } = Astro.props;
 const slug = (Astro.url.pathname.split("/").pop() || "Home")
-	.split(".")[0] // Remove file extension if present
+	.split(".")[0]
 	.split("-")
 	.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 	.join(" ");
@@ -28,7 +42,7 @@ import "@/styles/global.css";
   </head>
   <body>
     <main>
-      <Header />
+      <Header menuItems={menuItems} version={version} currentSlug={currentSlug} />
       <slot />
     </main>
   </body>

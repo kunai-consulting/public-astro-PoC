@@ -146,14 +146,22 @@ const menuSections = processMenuData(menuData);
 const { prev, next } = getPrevNextPages(menuSections, currentSlug);
 ---
 
-<Layout>
+<Layout menuItems={menuSections} version={version} currentSlug={currentSlug}>
+	<div slot="mobile">
+		<Sidebar
+			menuItems={menuSections}
+			version={version}
+			currentSlug={currentSlug}
+		/>
+	</div>
+
 	<div class="grid grid-cols-5">
 		<Sidebar
 			menuItems={menuSections}
 			version={version}
 			currentSlug={currentSlug}
 		/>
-		<div class="mb-12 md:col-span-3 col-span-5">
+		<div class="mb-12 lg:col-span-3 col-span-5">
 			<div class="mx-auto p-6 prose dark:prose-invert max-w-screen-md" data-pagefind-body>
 				<Breadcrumb
 					menuSections={menuSections}

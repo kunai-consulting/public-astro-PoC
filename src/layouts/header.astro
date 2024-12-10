@@ -2,14 +2,20 @@
 import QwikVersionSelect from "@/components/qwik/version-select/version-select";
 import { SearchModal } from "@/components/qwik/search-modal/search-modal";
 import { ThemeToggle } from "@/components/qwik/theme/theme-toggle";
+import { MobileMenu } from "@/components/qwik/mobile-menu/mobile-menu";
+
+const { menuItems, version, currentSlug } = Astro.props;
 ---
 
-<div class="flex p-4 border-b dark:border-gray-700 justify-between sticky top-0 bg-white dark:bg-gray-950 z-50">
+<div class="flex p-4 border-b dark:border-gray-700 justify-between sticky top-0 bg-white dark:bg-gray-950 z-50 items-center">
     <div><a href="/" class="dark:text-white">LOGO</a></div>
-    <div class="flex gap-4 items-center">
+    <div class="gap-4 items-center hidden lg:flex">
         <ThemeToggle />
         <SearchModal />
         <QwikVersionSelect url={Astro.url.pathname} />
+    </div>
+    <div class="lg:hidden">
+      <MobileMenu menuItems={menuItems} version={version} currentSlug={currentSlug} />
     </div>
 </div>
 
