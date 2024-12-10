@@ -1,0 +1,66 @@
+import { Image } from "astro:assets";
+import versioningImage from "@/assets/versioning/docusaurus-docs.png";
+import versioningImageAstro from "@/assets/versioning/astro-version.png";
+
+# Versioning
+
+Both Docusaurus and our Astro setup support documentation versioning, allowing multiple versions of docs to exist simultaneously. Thanks to Astro's content loaders, we can easily customize our versioning conventions to match our needs.
+
+<Image src={versioningImage} alt="Docusaurus docs folder structure" quality={80} loading="eager" />
+
+## Folder Structure Comparison
+
+### Docusaurus
+
+```shell
+website/
+├── docs/               # Current version ("next")
+│   └── doc1.md         # /docs/next/doc1
+├── versioned_docs/
+│   └── version-1.0.0/  # Previous versions
+│       └── doc1.md     # /docs/1.0.0/doc1
+├── versioned_sidebars/ # Versioned navigation
+│   └── version-1.0.0-sidebars.json
+└── sidebars.js         # Current version sidebar
+```
+
+### Our Astro Setup
+
+```shell
+website/
+├── docs/           # Current version
+│   └── doc1.mdx    # /docs/doc1
+├── docs-versions/  # Previous versions
+│   ├── 1.0.0/
+│   │   └── doc1.mdx # /docs/1.0.0/doc1
+│   └── versions.json
+├── menu-current/   # Current navigation
+└── menu-versions/  # Previous versions navigation
+```
+
+We intentionally prefix our folders with `docs-` and `menu-` to group related version content together in the file system.
+
+## Creating a New Version
+
+Both systems work similarly - when you create a new version, it takes a snapshot of the current docs:
+
+```shell
+npm run docs:version <version-name>
+```
+
+This command will copy the current docs into a versioned directory:
+- Docusaurus: `versioned_docs/version-1.0.0`
+- Our Setup: `docs-versions/1.0.0`
+
+Users can then switch between different versions using the version dropdown to the top right of the page.
+
+<Image src={versioningImageAstro} alt="Astro docs folder structure" quality={80} loading="eager" />
+
+## Development Version
+
+Both systems maintain a development version for unreleased changes:
+
+- Docusaurus: `/docs/next/page` (from `docs/` directory)
+- Our Setup: `/docs/current/page` (from `docs/` directory)
+
+This allows you to work on documentation changes before creating an official versioned release.

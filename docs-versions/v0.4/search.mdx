@@ -1,0 +1,38 @@
+import searchVideo from '@/assets/search/search-cropped.mp4'
+
+# Search: Docusaurus vs Astro
+
+## Docusaurus Search
+Docusaurus integrates with Algolia DocSearch as its default search solution, providing a powerful search experience for documentation sites. This hosted solution manages the indexing process and delivers real-time search results with built-in typo tolerance.
+
+While Algolia DocSearch offers a polished, ready-to-use solution, it does require application and approval for their free crawler service. The search UI comes pre-configured out of the box, though this means there's less room for customization.
+
+Some considerations:
+- Requires application and approval from Algolia for free DocSearch crawler
+- Limited control over search index and crawling behavior
+- Requires external service dependency
+
+## Astro + Pagefind
+Astro provides flexibility in choosing search solutions, with support for popular options like Algolia DocSearch. For this POC, we've implemented Pagefind, a modern static search solution that operates without external services.
+
+<video src={searchVideo} autoPlay loop muted playsInline />
+
+- Pagefind is a static search solution that works without external services
+- Generates search index at build time
+- Fully self-hosted with no external dependencies
+- Lightweight (~6KB core JS)
+- Works offline after initial load
+- Customizable UI components
+- Full control over indexing and search behavior
+- Supports multiple languages
+- Built-in content prefiltering
+- Version-specific search functionality - results are scoped to the current documentation version
+- May require more setup compared to Algolia's managed solution
+
+## Key Differences
+- **Hosting**: Algolia is cloud-hosted, Pagefind is self-hosted
+- **Setup**: Algolia requires approval and API keys, Pagefind works out of the box
+- **Control**: Pagefind offers more control over indexing and search behavior
+- **Performance**: Both are fast, but Pagefind works offline after initial load
+- **Maintenance**: Algolia is managed, Pagefind requires self-maintenance
+- **Cost**: Algolia has usage limits and paid tiers, Pagefind is free and open-source

@@ -1,0 +1,44 @@
+---
+title: Getting Started
+description: Compare Astro and Docusaurus frameworks for documentation sites
+---
+
+# Framework Comparison: Astro vs Docusaurus
+
+Both Astro and Docusaurus are powerful frameworks for building documentation sites. Here's what they offer out of the box:
+
+## Shared Features
+
+Both frameworks come with these features by default:
+- 📝 Support for TSX, Markdown, and MDX
+- 🗂️ File-based routing 
+- 📚 Versioning support (with plugins)
+- 🔍 Site search integration (Algolia, Pagefind)
+- 🌍 i18n (internationalization) support
+- 🎨 Dark/Light mode theming
+- 📊 Custom analytics and tracking capabilities
+
+## Docusaurus Advantages
+- 🚀 Simple, quick implementation (cookiecutter approach)
+- 🔌 Built-in integrations with many popular tools
+- 📦 Pre-built documentation features
+- ⏱️ Reduced initial development time
+
+## Docusaurus Limitations
+- 🏗️ Uses Webpack by default (slower builds compared to Vite)
+- 🔒 Limited SSR capabilities - primarily optimized for static site generation
+- 🔍 Known SEO issues (incorrect generated URLs, file to URL conversions)
+- 🎨 Limited control over certain UI elements (e.g., previous/next buttons, archive page title)
+- 👥 Limited control over user roles and permissions
+
+## Astro Advantages
+- ⚡ Vite-based build system for faster development
+- 🎯 "Zero JS by default" approach for better performance
+- 🔄 Full SSR support
+- 🎨 More flexible theming and customization options
+- 🏗️ Island architecture for optimal client-side interactivity
+
+## Astro Limitations
+- 📦 State management across islands requires additional setup (though solutions like nanostores work well)
+- 🌱 Ecosystem is less mature compared to React (but React components can be used within Astro)
+
