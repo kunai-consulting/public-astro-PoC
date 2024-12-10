@@ -1,6 +1,13 @@
-import { $, component$, useOnWindow, useSignal } from "@builder.io/qwik";
+import {
+	$,
+	component$,
+	useOnWindow,
+	useSignal,
+	useTask$,
+} from "@builder.io/qwik";
 import { Modal } from "@qwik-ui/headless";
 import { Field } from "@kunai-consulting/c1-design-system";
+import { isServer } from "@builder.io/qwik/build";
 
 interface SearchResult {
 	url: string;
@@ -12,6 +19,8 @@ interface SearchResult {
 
 export const SearchModal = component$(() => {
 	const results = useSignal<SearchResult[]>([]);
+	const isOpen = useSignal(false);
+	const isInitialized = useSignal(false);
 
 	useOnWindow(
 		"searchResults",
@@ -42,8 +51,19 @@ export const SearchModal = component$(() => {
 		}),
 	);
 
+	useTask$(({ track }) => {
+		track(() => isOpen.value);
+
+		if (isServer) return;
+
+		if (isOpen.value && !isInitialized.value) {
+			window.dispatchEvent(new CustomEvent("initPagefind"));
+			isInitialized.value = true;
+		}
+	});
+
 	return (
-		<Modal.Root>
+		<Modal.Root bind:show={isOpen}>
 			<Modal.Trigger class="px-3 py-2 rounded-md gap-2 flex items-center border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-white">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
